@@ -1,29 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "horseinboat",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "HorseInBoat",
+  "description": "Simple Minecraft mod that makes it easy to put horses in boats.",
   "authors": [
-    "Me!"
+    "Legosteenjaap"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/legosteenjaap/HorseInBoat",
+    "issues": "https://github.com/legosteenjaap/HorseInBoat/issues"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "GPL-3.0 License",
+  "icon": "assets/horseinboat/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "me.legosteenjaap.horseinboat.HorseInBoat"
     ]
   },
+  "accessWidener" : "horseinboat.accesswidener",
   "mixins": [
-    "modid.mixins.json"
+    "horseinboat.mixins.json"
   ],
 
   "depends": {
@@ -31,8 +32,5 @@
     "fabric": "*",
     "minecraft": "1.18.x",
     "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }
