@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "HorseInBoat",
-  "description": "Simple Minecraft mod that makes it easy to put horses in boats.",
+    "description": "Simple Minecraft mod that makes it easy to put horses in boats.",
   "authors": [
     "Legosteenjaap"
   ],
@@ -29,7 +29,6 @@
 
   "depends": {
     "fabricloader": ">=0.12.12",
-    "fabric": "*",
     "minecraft": "1.18.x",
     "java": ">=17"
   }
