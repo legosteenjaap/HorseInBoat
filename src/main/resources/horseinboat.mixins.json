@@ -8,8 +8,7 @@
   "client": [
     "BoatEntityMixin",
     "HorseBaseEntityMixin",
-    "HorseEntityModelMixin",
-    "LookAtEntityGoalMixin"
+    "HorseEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

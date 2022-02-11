@@ -1,13 +1,12 @@
 package me.legosteenjaap.horseinboat.mixin;
 
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HorseBaseEntity.class)
 public abstract class HorseBaseEntityMixin extends AnimalEntity {
 
-    @Shadow public abstract boolean isEatingGrass();
+    @Shadow public abstract void travel(Vec3d movementInput);
 
     protected HorseBaseEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
@@ -31,8 +30,7 @@ public abstract class HorseBaseEntityMixin extends AnimalEntity {
         if (this.hasVehicle() && this.getVehicle() instanceof BoatEntity ) {
             if (this.getVehicle().getPassengerList().size() == 1) {
                 Box box = super.getBoundingBox();
-                Box changedBox = box.withMinY(box.minY + this.getVehicle().getHeight());
-                return changedBox;
+                return box.withMinY(box.minY + this.getVehicle().getHeight());
             } else {
                 Box box = super.getBoundingBox();
                 Box changedBox = box.withMinY(box.minY + this.getVehicle().getHeight());
@@ -47,9 +45,26 @@ public abstract class HorseBaseEntityMixin extends AnimalEntity {
         return super.getBoundingBox();
     }
 
-    @Inject(method = "tick", at = @At("RETURN"))
+    @Override
+    public EntityDimensions getDimensions(EntityPose pose) {
+        if (this.hasVehicle() && this.getVehicle() instanceof BoatEntity ) {
+            if (this.getVehicle().getPassengerList().size() == 1) {
+                EntityDimensions dim = super.getDimensions(pose);
+                return EntityDimensions.changing(dim.width, dim.height - this.getVehicle().getHeight());
+            } else {
+                EntityDimensions dim = super.getDimensions(pose);
+                return EntityDimensions.changing(dim.width - 0.60f, dim.height - this.getVehicle().getHeight());
+            }
+        }
+        return super.getDimensions(pose);
+    }
+
+    @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
-        if (this.hasPassengers() && this.hasVehicle() && this.getVehicle() instanceof BoatEntity && this.getVehicle().getPassengerList().size() == 2) this.removeAllPassengers();
+        if (this.hasPassengers() && this.hasVehicle() && this.getVehicle() instanceof BoatEntity && this.getVehicle().getPassengerList().size() == 2) {
+            this.removeAllPassengers();
+        }
+        this.setRotation(this.getYaw(), this.getPitch());
     }
 
     @Inject(method= "putPlayerOnBack", at = @At("HEAD"), cancellable = true)
@@ -64,6 +79,11 @@ public abstract class HorseBaseEntityMixin extends AnimalEntity {
 
     @Inject(method = "isAngry", at = @At("RETURN"), cancellable = true)
     public void isAngry(CallbackInfoReturnable<Boolean> cir) {
+        if (this.hasVehicle() && this.getVehicle() instanceof BoatEntity) cir.setReturnValue(false);
+    }
+
+    @Inject(method = "isEatingGrass", at = @At("RETURN"), cancellable = true)
+    public void isEatingGrass(CallbackInfoReturnable<Boolean> cir) {
         if (this.hasVehicle() && this.getVehicle() instanceof BoatEntity) cir.setReturnValue(false);
     }
 

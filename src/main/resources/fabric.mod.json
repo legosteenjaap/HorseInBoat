@@ -13,7 +13,7 @@
     "issues": "https://github.com/legosteenjaap/HorseInBoat/issues"
   },
 
-  "license": "GPL-3.0 License",
+  "license": "LGPL-3.0 License",
   "icon": "assets/horseinboat/icon.png",
 
   "environment": "*",
@@ -28,7 +28,7 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.12.12",
+    "fabricloader": ">=0.13.1",
     "minecraft": "1.18.x",
     "java": ">=17"
   }

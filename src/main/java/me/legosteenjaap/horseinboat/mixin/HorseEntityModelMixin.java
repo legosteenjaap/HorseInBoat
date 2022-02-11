@@ -32,8 +32,9 @@ public abstract class HorseEntityModelMixin <T extends HorseBaseEntity> extends 
 
     float headYBoat = -4f;
     float headZBoat = 0.5f;
-    float headPitchRotBoat = MathConstants.PI * 0.25f;
     float headYawRotBoat = MathConstants.PI * 0f;
+
+    boolean updatedToNormalModel;
 
     @Shadow @Final
     private ModelPart rightFrontLeg;
@@ -51,7 +52,7 @@ public abstract class HorseEntityModelMixin <T extends HorseBaseEntity> extends 
     private ModelPart tail;
 
     @Inject(method = "setAngles(Lnet/minecraft/entity/passive/HorseBaseEntity;FFFFF)V", at = @At("RETURN"))
-    public void setAngles(T horseBaseEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
+    public void setAngles(T horseBaseEntity, float f, float g, float h, float headYaw, float bodyYaw, CallbackInfo ci) {
         BoatEntity boat = null;
         if (!horseBaseEntity.isBaby() && horseBaseEntity.hasVehicle() && horseBaseEntity.getVehicle() instanceof BoatEntity) boat = (BoatEntity)horseBaseEntity.getVehicle();
         if (boat != null && boat.getPassengerList().size() == 2) {
@@ -67,7 +68,6 @@ public abstract class HorseEntityModelMixin <T extends HorseBaseEntity> extends 
             //HEAD
             this.head.pivotY = headYBoat;
             this.head.pivotZ = headZBoat;
-            //this.head.pitch = headPitchRotBoat;
 
             //BODY
             this.body.pivotY = bodyYBoat;
@@ -96,7 +96,9 @@ public abstract class HorseEntityModelMixin <T extends HorseBaseEntity> extends 
 
             //TAIL
             this.tail.visible = false;
-        } else {
+
+            updatedToNormalModel = false;
+        } else if (!updatedToNormalModel) {
             //HEAD
             this.head.pivotY = 4.0f;
             this.head.pivotZ = -12.0f;
@@ -123,7 +125,10 @@ public abstract class HorseEntityModelMixin <T extends HorseBaseEntity> extends 
 
             //TAIL
             this.tail.visible = true;
+
+            updatedToNormalModel = true;
         }
+        if (!horseBaseEntity.isBaby() && boat != null) this.head.yaw = headYawRotBoat;
     }
 
 }
