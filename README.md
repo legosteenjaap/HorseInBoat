@@ -1,7 +1,7 @@
 # HorseInBoat
 
 ## What does this mod do?
-This mod makes it much easier to put horses into boats and also changes the pose horses have in a boat. This mod also changes the hitbox of horses in boats, this is done to make it possible to enter a boat with a horse in it and it also makes sure that you can hit trough a horses hitbox whilst you are in a boat with a horse.
+This mod makes it much easier to put horses into boats and also changes the pose horses have whilst in one. This mod also changes the hitbox of horses in boats, this is done to make it possible to enter a boat with a horse in it and it also makes sure that you can hit trough a horses hitbox whilst you are in a boat with a horse.
 
 ## Showcase
 https://user-images.githubusercontent.com/50271899/153609838-a3470299-b1c0-463d-b121-140dc1da0ff2.mp4
