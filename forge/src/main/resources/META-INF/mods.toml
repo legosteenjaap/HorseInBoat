@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[38,)"
+loaderVersion = "[39,)"
 issueTrackerURL = "https://github.com/legosteenjaap/HorseInBoat/issues"
 license = "LGPL-3.0 License"
 
@@ -16,13 +16,13 @@ logoFile = "icon.png"
 [[dependencies.horseinboat]]
 modId = "forge"
 mandatory = true
-versionRange = "[38,)"
+versionRange = "[39,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.horseinboat]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.18.1,)"
 ordering = "NONE"
 side = "BOTH"

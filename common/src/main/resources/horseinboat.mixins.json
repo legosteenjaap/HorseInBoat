@@ -8,7 +8,8 @@
     "AbstractHorseMixin"
   ],
   "client": [
-    "HorseModelMixin"
+    "HorseModelMixin",
+     "HorseInventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

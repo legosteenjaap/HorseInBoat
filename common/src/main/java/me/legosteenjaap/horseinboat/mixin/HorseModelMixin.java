@@ -52,7 +52,7 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
     private ModelPart tail;
 
     @Inject(method = "setupAnim(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;FFFFF)V", at = @At("RETURN"))
-    public void setAngles(T horse, float f, float g, float h, float headyRot, float bodyyRot, CallbackInfo ci) {
+    public void setupAnim(T horse, float f, float g, float h, float headyRot, float bodyyRot, CallbackInfo ci) {
         Boat boat = null;
         if (!horse.isBaby() && horse.isPassenger() && horse.getVehicle() instanceof Boat) boat = (Boat) horse.getVehicle();
         if (boat != null && boat.getPassengers().size() == 2) {
@@ -61,7 +61,7 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
     }
 
     @Inject(method = "prepareMobModel(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;FFF)V", at = @At("RETURN"))
-    public void animateModel(T horse, float f, float g, float h, CallbackInfo ci) {
+    public void prepareMobModel(T horse, float f, float g, float h, CallbackInfo ci) {
         Boat boat = null;
         if (!horse.isBaby() && horse.isPassenger() && horse.getVehicle() instanceof Boat) boat = (Boat)horse.getVehicle();
         if (!horse.isBaby() && boat != null && boat.getPassengers().size() == 2) {
@@ -77,8 +77,13 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
             //HIND LEG
             this.leftHindLeg.xRot = legHindRollRotBoat;
             this.rightHindLeg.xRot = legHindRollRotBoat;
-            this.leftHindLeg.yRot = -legHindyRotRotBoat;
-            this.rightHindLeg.yRot = legHindyRotRotBoat;
+            if (boat.getPassengers().get(0) instanceof AbstractHorse && boat.getPassengers().get(1) instanceof AbstractHorse) {
+                this.leftHindLeg.yRot = -legHindyRotRotBoat * 0.25f;;
+                this.rightHindLeg.yRot = legHindyRotRotBoat * 0.25f;;
+            } else {
+                this.leftHindLeg.yRot = -legHindyRotRotBoat;
+                this.rightHindLeg.yRot = legHindyRotRotBoat;
+            }
             leftHindLeg.y = legHindYBoat;
             rightHindLeg.y = legHindYBoat;
             leftHindLeg.z = legHindZBoat;
