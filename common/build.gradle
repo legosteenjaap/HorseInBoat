@@ -1,0 +1,22 @@
+dependencies {
+    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
+    // Do NOT use other classes from fabric loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+    // Remove the next line if you don't want to depend on the API
+}
+
+architectury {
+    common()
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/horseinboat.accesswidener")
+}
+
+afterEvaluate {
+    tasks {
+        remapJar {
+            remapAccessWidener.set(false)
+        }
+    }
+}

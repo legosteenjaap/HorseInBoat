@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[38,)"
+issueTrackerURL = "https://github.com/legosteenjaap/HorseInBoat/issues"
+license = "LGPL-3.0 License"
+
+[[mods]]
+modId = "horseinboat"
+version = "${version}"
+displayName = "HorseInBoat"
+authors = "Legosteenjaap"
+description = '''
+Simple Minecraft mod that makes it easy to put horses in boats.
+'''
+logoFile = "assets/horseinboat/icon.png"
+
+[[dependencies.horseinboat]]
+modId = "forge"
+mandatory = true
+versionRange = "[38,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.horseinboat]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.horseinboat]]
+modId = "architectury"
+mandatory = true
+versionRange = "[3.4.9,)"
+ordering = "AFTER"
+side = "BOTH"
