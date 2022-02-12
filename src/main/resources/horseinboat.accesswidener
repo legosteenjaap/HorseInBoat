@@ -1,4 +1,0 @@
-accessWidener v1 named
-
-extendable   method   net/minecraft/entity/Entity   getBoundingBox   ()Lnet/minecraft/util/math/Box;
-extendable   method   net/minecraft/entity/Entity   getStandingEyeHeight   ()F

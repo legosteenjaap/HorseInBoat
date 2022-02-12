@@ -4,11 +4,11 @@
   "package": "me.legosteenjaap.horseinboat.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BoatMixin",
+    "AbstractHorseMixin"
   ],
   "client": [
-    "BoatEntityMixin",
-    "HorseBaseEntityMixin",
-    "HorseEntityModelMixin"
+    "HorseModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

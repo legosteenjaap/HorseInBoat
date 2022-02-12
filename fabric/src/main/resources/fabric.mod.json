@@ -14,21 +14,16 @@
   },
 
   "license": "LGPL-3.0 License",
-  "icon": "assets/horseinboat/icon.png",
+  "icon": "icon.png",
 
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "me.legosteenjaap.horseinboat.HorseInBoat"
-    ]
-  },
   "accessWidener" : "horseinboat.accesswidener",
   "mixins": [
     "horseinboat.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.13.1",
+    "fabricloader": ">=0.12.2",
     "minecraft": "1.18.x",
     "java": ">=17"
   }
