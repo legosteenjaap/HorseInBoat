@@ -1,9 +1,10 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 loom {
     forge {
         mixinConfig "horseinboat.mixins.json"
+        accessTransformer file("src/main/resources/META-INF/accesstransformer.cfg")
     }
 }
 
@@ -36,7 +37,7 @@ processResources {
 
 shadowJar {
     exclude "fabric.mod.json"
-    exclude "betterf3.accesswidener"
+    exclude "horseinboat.accesswidener"
 
     configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"

@@ -1,4 +1,4 @@
-package me.legosteenjaap.horseinboat;
+package me.legosteenjaap.horseinboatforge;
 
 import net.minecraftforge.fml.common.Mod;
 

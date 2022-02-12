@@ -13,10 +13,3 @@ loom {
     accessWidenerPath = file("src/main/resources/horseinboat.accesswidener")
 }
 
-afterEvaluate {
-    tasks {
-        remapJar {
-            remapAccessWidener.set(false)
-        }
-    }
-}
