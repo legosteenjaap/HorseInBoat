@@ -2,6 +2,7 @@ package me.legosteenjaap.horseinboat.mixin;
 
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.vehicle.Boat;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,7 @@ public class HorseInventoryScreenMixin {
 
     @ModifyConstant(method = "renderBg", constant = @Constant(intValue = 60, ordinal = 0))
     private int changeModelPos(int value) {
-        if (horse.isPassenger() && horse.getVehicle() instanceof Boat && horse.getVehicle().getPassengers().size() == 2) return 69;
+        if (!(horse instanceof Llama) && horse.isPassenger() && horse.getVehicle() instanceof Boat && horse.getVehicle().getPassengers().size() == 2) return 69;
         return value;
     }
 
