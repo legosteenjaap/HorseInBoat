@@ -53,6 +53,7 @@ remapJar {
 
 jar {
     classifier "dev"
+    setArchivesBaseName("horseinboat-forge");
 }
 
 sourcesJar {

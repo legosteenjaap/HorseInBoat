@@ -9,9 +9,3 @@ architectury {
 loom {
     accessWidenerPath = file("src/main/resources/horseinboat.accesswidener")
 }
-
-afterEvaluate {
-    remapJar {
-        remapAccessWidener = false
-    }
-}

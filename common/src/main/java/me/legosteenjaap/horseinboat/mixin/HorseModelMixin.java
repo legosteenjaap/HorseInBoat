@@ -45,6 +45,10 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
     @Shadow @Final
     private ModelPart leftHindLeg;
     @Shadow @Final
+    private ModelPart rightHindBabyLeg;
+    @Shadow @Final
+    private ModelPart leftHindBabyLeg;
+    @Shadow @Final
     protected ModelPart body;
     @Shadow @Final
     protected ModelPart headParts;
@@ -109,16 +113,16 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
             this.headParts.z = -12.0f;
 
             //BODY
-            this.body.y =0.0f;
+            this.body.y = 0.0f;
             this.body.z = 5.0f;
 
             //HIND LEG
             this.leftHindLeg.yRot = 0;
             this.rightHindLeg.yRot = 0;
-            leftHindLeg.y = 14.0f;
-            rightHindLeg.y = 14.0f;
-            leftHindLeg.z = 7.0f;
-            rightHindLeg.z = 7.0f;
+            leftHindLeg.y = leftHindBabyLeg.y = 14.0f;
+            rightHindLeg.y = rightHindBabyLeg.y = 14.0f;
+            leftHindLeg.z = leftHindBabyLeg.z = 7.0f;
+            rightHindLeg.z = rightHindBabyLeg.z = 7.0f;
 
             //FRONT LEG
             this.leftFrontLeg.yRot = 0;

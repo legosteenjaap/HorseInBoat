@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "me.legosteenjaap.horseinboat.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
     "BoatMixin",
     "AbstractHorseMixin",
@@ -10,7 +10,7 @@
   ],
   "client": [
     "HorseModelMixin",
-     "HorseInventoryScreenMixin"
+    "HorseInventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
