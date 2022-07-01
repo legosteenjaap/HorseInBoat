@@ -6,6 +6,7 @@ import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.ChestBoat;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -68,7 +69,7 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
     public void prepareMobModel(T horse, float f, float g, float h, CallbackInfo ci) {
         Boat boat = null;
         if (!horse.isBaby() && horse.isPassenger() && horse.getVehicle() instanceof Boat) boat = (Boat)horse.getVehicle();
-        if (!horse.isBaby() && boat != null && boat.getPassengers().size() == 2) {
+        if (!horse.isBaby() && boat != null && (boat.getMaxPassengers() == 1 || boat.getPassengers().size() == 2)) {
             //HEAD
             this.headParts.y = headYBoat;
             this.headParts.z = headZBoat;
@@ -81,7 +82,7 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
             //HIND LEG
             this.leftHindLeg.xRot = legHindRollRotBoat;
             this.rightHindLeg.xRot = legHindRollRotBoat;
-            if (boat.getPassengers().get(0) instanceof AbstractHorse && boat.getPassengers().get(1) instanceof AbstractHorse) {
+            if (!(boat.getMaxPassengers() == 1) && boat.getPassengers().get(0) instanceof AbstractHorse && boat.getPassengers().get(1) instanceof AbstractHorse) {
                 this.leftHindLeg.yRot = -legHindyRotRotBoat * 0.25f;;
                 this.rightHindLeg.yRot = legHindyRotRotBoat * 0.25f;;
             } else {

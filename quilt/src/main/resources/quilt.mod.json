@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "mixin": [
+    "horseinboat.mixins.json"
+  ],
+  "quilt_loader": {
+    "group": "${group}",
+    "id": "horseinboat",
+    "version": "${version}",
+    "metadata": {
+      "name": "HorseInBoat",
+      "description": "Simple Minecraft mod that makes it easy to put horses in boats.",
+      "authors": [
+        "Legosteenjaap"
+      ],
+      "contact": {
+        "sources": "https://github.com/legosteenjaap/HorseInBoat",
+        "issues": "https://github.com/legosteenjaap/HorseInBoat/issues"
+      },
+      "license": "LGPL-3.0-only",
+      "icon": "icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "environment": "*",
+    "accessWidener": "horseinboat.accesswidener",
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "version": ">=0.17.1-beta.4"
+      },
+      {
+        "id": "minecraft",
+        "version": ">=1.19"
+      },
+      {
+        "id": "java",
+        "version": ">=1.17"
+      }
+    ]
+  }
+}
