@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractHorse.class)
 public abstract class AbstractHorseMixin extends Animal {
 
-    @Shadow public abstract void travel(Vec3 movementInput);
+    //@Shadow public abstract void travel(Vec3 movementInput);
 
     protected AbstractHorseMixin(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);

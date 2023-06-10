@@ -21,21 +21,23 @@
       "icon": "icon.png"
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
-    "environment": "*",
-    "accessWidener": "horseinboat.accesswidener",
     "depends": [
       {
         "id": "quilt_loader",
-        "version": ">=0.17.1-beta.4"
+        "version": ">=0.18.10"
       },
       {
         "id": "minecraft",
-        "version": ">=1.19"
+        "version": ">=1.20"
       },
       {
         "id": "java",
-        "version": ">=1.17"
+        "version": ">=17"
       }
     ]
+  },
+  "access_widener": "horseinboat.accesswidener",
+  "minecraft": {
+    "environment": "*"
   }
 }
