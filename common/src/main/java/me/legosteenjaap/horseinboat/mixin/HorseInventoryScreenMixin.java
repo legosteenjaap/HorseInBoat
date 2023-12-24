@@ -16,9 +16,9 @@ public class HorseInventoryScreenMixin {
     @Shadow @Final
     private AbstractHorse horse;
 
-    @ModifyConstant(method = "renderBg", constant = @Constant(intValue = 60, ordinal = 0))
+    @ModifyConstant(method = "renderBg", constant = @Constant(intValue = 70, ordinal = 0))
     private int changeModelPos(int value) {
-        if (!(horse instanceof Llama) && horse.isPassenger() && horse.getVehicle() instanceof Boat && horse.getVehicle().getPassengers().size() == 2) return 69;
+        if (!(horse instanceof Llama) && horse.isPassenger() && horse.getVehicle() instanceof Boat && horse.getVehicle().getPassengers().size() == 2) return 79;
         return value;
     }
 
