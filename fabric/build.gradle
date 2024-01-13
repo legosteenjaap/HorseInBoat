@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 architectury {
@@ -35,17 +35,17 @@ processResources {
 
 shadowJar {
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+    classifier "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveClassifier = null
+    classifier null
 }
 
 jar {
-    archiveClassifier = "dev"
+    classifier "dev"
     setArchivesBaseName("horseinboat-fabric");
 }
 
