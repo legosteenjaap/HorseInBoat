@@ -42,4 +42,8 @@ allprojects {
 		options.compilerArgs +=	"-Xlint:-processing" // Fixes "no processor claimed any of these annotations" warning
 	}
 
+	repositories {
+		maven { url "https://maven.neoforged.net/#/release/" }
+	}
+
 }

@@ -3,7 +3,7 @@
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
 
-name: build_forge
+name: build_neoforge
 on: [pull_request, push]
 
 jobs:
@@ -30,10 +30,10 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew forge:build
+        run: ./gradlew neoforge:build
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
         with:
           name: Artifacts
-          path: forge/build/libs/
+          path: neoforge/build/libs/
