@@ -79,8 +79,9 @@ public abstract class AbstractHorseMixin extends Animal {
         if (this.isPassenger() && this.getVehicle() instanceof Boat) cir.setReturnValue(false);
     }
 
-    @Inject(method = "isEating", at = @At("RETURN"), cancellable = true)
-    public void isEating(CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "canEatGrass", at = @At("RETURN"), cancellable = true)
+    public void canEatGrass(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(false);
         if (this.isPassenger() && this.getVehicle() instanceof Boat) cir.setReturnValue(false);
     }
 

@@ -19,21 +19,22 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
 
     float legHindRollRotBoat = Constants.PI * -0.7f;
     float legHindyRotRotBoat = Constants.PI * 0.1f;
-    float legHindYBoat = 17f;
+    float legHindYBoat = 19.25f;
     float legHindZBoat = -1f;
 
     float legFrontRollRotBoat = Constants.PI * -0.25f;
     float legFrontyRotRotBoat = Constants.PI * 0f;
-    float legFrontYBoat = -2f;
+    float legFrontYBoat = 0.25f;
     float legFrontZBoat = -1.75f;
 
     float bodyRotBoat = Constants.PI * -0.5f;
-    float bodyYBoat = 13f;
+    float bodyYBoat = 15.25f;
     float bodyZBoat = -1f;
 
-    float headYBoat = -4f;
+    float headYBoat = -1.75f;
     float headZBoat = 0.5f;
-    float headyRotRotBoat = Constants.PI * 0f;
+    float headYRotBoat = Constants.PI * 0f;
+    float headXRotBoat = 0.5235988f;
 
     boolean updatedToNormalModel;
 
@@ -66,10 +67,10 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
     }
 
     @Inject(method = "prepareMobModel(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;FFF)V", at = @At("RETURN"))
-    public void prepareMobModel(T horse, float f, float g, float h, CallbackInfo ci) {
+    public void prepareMobModel(T abstractHorse, float f, float g, float h, CallbackInfo ci) {
         Boat boat = null;
-        if (!horse.isBaby() && horse.isPassenger() && horse.getVehicle() instanceof Boat) boat = (Boat)horse.getVehicle();
-        if (!horse.isBaby() && boat != null && (boat.getMaxPassengers() == 1 || boat.getPassengers().size() == 2)) {
+        if (!abstractHorse.isBaby() && abstractHorse.isPassenger() && abstractHorse.getVehicle() instanceof Boat) boat = (Boat)abstractHorse.getVehicle();
+        if (!abstractHorse.isBaby() && boat != null && (boat.getMaxPassengers() == 1 || boat.getPassengers().size() == 2)) {
             //HEAD
             this.headParts.y = headYBoat;
             this.headParts.z = headZBoat;
@@ -138,7 +139,11 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
 
             updatedToNormalModel = true;
         }
-        if (!horse.isBaby() && boat != null) this.headParts.yRot = headyRotRotBoat;
+        if (!abstractHorse.isBaby() && boat != null) {
+            //Disables all head animations while in a boat
+            this.headParts.xRot = headXRotBoat;
+            this.headParts.yRot = headYRotBoat;
+        }
     }
 
 }
