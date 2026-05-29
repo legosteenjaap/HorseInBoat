@@ -1,12 +1,12 @@
 package me.legosteenjaap.horseinboat.mixin;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 
-@Mixin(Boat.class)
+@Mixin(AbstractBoat.class)
 public class BoatMixin {
 
 	@Redirect(method = "hasEnoughSpaceFor", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getBbWidth()F", ordinal = 0))
@@ -16,4 +16,3 @@ public class BoatMixin {
 	}
 
 }
-

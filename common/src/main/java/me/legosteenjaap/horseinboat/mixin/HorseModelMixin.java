@@ -1,101 +1,85 @@
 package me.legosteenjaap.horseinboat.mixin;
 
 import com.mojang.math.Constants;
-import net.minecraft.client.model.AgeableListModel;
-import net.minecraft.client.model.HorseModel;
+import me.legosteenjaap.horseinboat.rendering.IBoatRenderState;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.animal.equine.AbstractEquineModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.entity.vehicle.ChestBoat;
+import net.minecraft.client.renderer.entity.state.EquineRenderState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(HorseModel.class)
-public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableListModel<T> {
+@Mixin(AbstractEquineModel.class)
+public abstract class HorseModelMixin<T extends EquineRenderState> extends EntityModel<T> {
 
-    float legHindRollRotBoat = Constants.PI * -0.7f;
-    float legHindyRotRotBoat = Constants.PI * 0.1f;
-    float legHindYBoat = 19.25f;
-    float legHindZBoat = -1f;
+    @Unique float legHindRollRotBoat = Constants.PI * -0.7f;
+    @Unique float legHindyRotRotBoat = Constants.PI * 0.1f;
+    @Unique float legHindYBoat = 19.25f;
+    @Unique float legHindZBoat = -1f;
 
-    float legFrontRollRotBoat = Constants.PI * -0.25f;
-    float legFrontyRotRotBoat = Constants.PI * 0f;
-    float legFrontYBoat = 0.25f;
-    float legFrontZBoat = -1.75f;
+    @Unique float legFrontRollRotBoat = Constants.PI * -0.25f;
+    @Unique float legFrontyRotRotBoat = Constants.PI * 0f;
+    @Unique float legFrontYBoat = 0.25f;
+    @Unique float legFrontZBoat = -1.75f;
 
-    float bodyRotBoat = Constants.PI * -0.5f;
-    float bodyYBoat = 15.25f;
-    float bodyZBoat = -1f;
+    @Unique float bodyRotBoat = Constants.PI * -0.5f;
+    @Unique float bodyYBoat = 15.25f;
+    @Unique float bodyZBoat = -1f;
 
-    float headYBoat = -1.75f;
-    float headZBoat = 0.5f;
-    float headYRotBoat = Constants.PI * 0f;
-    float headXRotBoat = 0.5235988f;
+    @Unique float headYBoat = -1.75f;
+    @Unique float headZBoat = 0.5f;
+    @Unique float headYRotBoat = Constants.PI * 0f;
+    @Unique float headXRotBoat = 0.5235988f;
 
-    boolean updatedToNormalModel;
+    @Unique boolean updatedToNormalModel = true;
 
-    @Shadow @Final
-    private ModelPart rightFrontLeg;
-    @Shadow @Final
-    private ModelPart leftFrontLeg;
-    @Shadow @Final
-    private ModelPart rightHindLeg;
-    @Shadow @Final
-    private ModelPart leftHindLeg;
-    @Shadow @Final
-    private ModelPart rightHindBabyLeg;
-    @Shadow @Final
-    private ModelPart leftHindBabyLeg;
-    @Shadow @Final
-    protected ModelPart body;
-    @Shadow @Final
-    protected ModelPart headParts;
-    @Shadow @Final
-    private ModelPart tail;
+    @Shadow @Final protected ModelPart rightFrontLeg;
+    @Shadow @Final protected ModelPart leftFrontLeg;
+    @Shadow @Final protected ModelPart rightHindLeg;
+    @Shadow @Final protected ModelPart leftHindLeg;
+    @Shadow @Final protected ModelPart body;
+    @Shadow @Final protected ModelPart headParts;
+    @Shadow @Final private ModelPart tail;
 
-    @Inject(method = "setupAnim(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;FFFFF)V", at = @At("RETURN"))
-    public void setupAnim(T horse, float f, float g, float h, float headyRot, float bodyyRot, CallbackInfo ci) {
-        Boat boat = null;
-        if (!horse.isBaby() && horse.isPassenger() && horse.getVehicle() instanceof Boat) boat = (Boat) horse.getVehicle();
-        if (boat != null && boat.getPassengers().size() == 2) {
-            this.body.y =  bodyYBoat;
-        }
+    protected HorseModelMixin(net.minecraft.client.model.geom.ModelPart root) {
+        super(root);
     }
 
-    @Inject(method = "prepareMobModel(Lnet/minecraft/world/entity/animal/horse/AbstractHorse;FFF)V", at = @At("RETURN"))
-    public void prepareMobModel(T abstractHorse, float f, float g, float h, CallbackInfo ci) {
-        Boat boat = null;
-        if (!abstractHorse.isBaby() && abstractHorse.isPassenger() && abstractHorse.getVehicle() instanceof Boat) boat = (Boat)abstractHorse.getVehicle();
-        if (!abstractHorse.isBaby() && boat != null && (boat.getMaxPassengers() == 1 || boat.getPassengers().size() == 2)) {
-            //HEAD
+    @Inject(method = "setupAnim(Lnet/minecraft/client/renderer/entity/state/EquineRenderState;)V", at = @At("RETURN"))
+    public void setupAnim(T state, CallbackInfo ci) {
+        if (state.isBaby) return;
+
+        IBoatRenderState boatState = (IBoatRenderState) state;
+        boolean inBoat = boatState.horseinboat$isInBoat();
+        boolean has2Passengers = boatState.horseinboat$boatHas2Passengers();
+        boolean isChestBoat = boatState.horseinboat$boatIsChestBoat();
+
+        if (inBoat && (isChestBoat || has2Passengers)) {
+            // HEAD
             this.headParts.y = headYBoat;
             this.headParts.z = headZBoat;
 
-            //BODY
+            // BODY
             this.body.y = bodyYBoat;
             this.body.z = bodyZBoat;
             this.body.xRot = bodyRotBoat;
 
-            //HIND LEG
+            // HIND LEG
             this.leftHindLeg.xRot = legHindRollRotBoat;
             this.rightHindLeg.xRot = legHindRollRotBoat;
-            if (!(boat.getMaxPassengers() == 1) && boat.getPassengers().get(0) instanceof AbstractHorse && boat.getPassengers().get(1) instanceof AbstractHorse) {
-                this.leftHindLeg.yRot = -legHindyRotRotBoat * 0.25f;;
-                this.rightHindLeg.yRot = legHindyRotRotBoat * 0.25f;;
-            } else {
-                this.leftHindLeg.yRot = -legHindyRotRotBoat;
-                this.rightHindLeg.yRot = legHindyRotRotBoat;
-            }
+            this.leftHindLeg.yRot = -legHindyRotRotBoat;
+            this.rightHindLeg.yRot = legHindyRotRotBoat;
             leftHindLeg.y = legHindYBoat;
             rightHindLeg.y = legHindYBoat;
             leftHindLeg.z = legHindZBoat;
             rightHindLeg.z = legHindZBoat;
 
-            //FRONT LEG
+            // FRONT LEG
             this.leftFrontLeg.xRot = legFrontRollRotBoat;
             this.rightFrontLeg.xRot = legFrontRollRotBoat;
             this.leftFrontLeg.yRot = -legFrontyRotRotBoat;
@@ -105,45 +89,45 @@ public abstract class HorseModelMixin<T extends AbstractHorse> extends AgeableLi
             leftFrontLeg.z = legFrontZBoat;
             rightFrontLeg.z = legFrontZBoat;
 
-            //TAIL
+            // TAIL
             this.tail.visible = false;
+
+            // Extra body.y adjustment when a player is also in the boat
+            if (has2Passengers) {
+                this.body.y = bodyYBoat;
+            }
+
+            // Disable head animations while in a boat
+            this.headParts.xRot = headXRotBoat;
+            this.headParts.yRot = headYRotBoat;
 
             updatedToNormalModel = false;
         } else if (!updatedToNormalModel) {
-            //HEAD
+            // Restore defaults
             this.headParts.y = 4.0f;
             this.headParts.z = -12.0f;
 
-            //BODY
             this.body.y = 0.0f;
             this.body.z = 5.0f;
+            this.body.xRot = 0.0f;
 
-            //HIND LEG
             this.leftHindLeg.yRot = 0;
             this.rightHindLeg.yRot = 0;
-            leftHindLeg.y = leftHindBabyLeg.y = 14.0f;
-            rightHindLeg.y = rightHindBabyLeg.y = 14.0f;
-            leftHindLeg.z = leftHindBabyLeg.z = 7.0f;
-            rightHindLeg.z = rightHindBabyLeg.z = 7.0f;
+            leftHindLeg.y = rightHindLeg.y = 14.0f;
+            leftHindLeg.z = rightHindLeg.z = 7.0f;
 
-            //FRONT LEG
             this.leftFrontLeg.yRot = 0;
             this.rightFrontLeg.yRot = 0;
-            leftFrontLeg.y = 14.0f;
-            rightFrontLeg.y = 14.0f;
-            leftFrontLeg.z = -10.0f;
-            rightFrontLeg.z = -10.0f;
+            leftFrontLeg.y = rightFrontLeg.y = 14.0f;
+            leftFrontLeg.z = rightFrontLeg.z = -10.0f;
 
-            //TAIL
             this.tail.visible = true;
 
             updatedToNormalModel = true;
-        }
-        if (!abstractHorse.isBaby() && boat != null) {
-            //Disables all head animations while in a boat
+        } else if (inBoat) {
+            // In boat but not chest boat and not 2 passengers — disable head animations
             this.headParts.xRot = headXRotBoat;
             this.headParts.yRot = headYRotBoat;
         }
     }
-
 }

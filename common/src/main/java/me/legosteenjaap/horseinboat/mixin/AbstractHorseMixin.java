@@ -4,9 +4,9 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,7 +25,7 @@ public abstract class AbstractHorseMixin extends Animal {
 
     @Override
     public AABB getBoundingBox() {
-        if (this.isPassenger() && this.getVehicle() instanceof Boat) {
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat) {
             if (this.getVehicle().getPassengers().size() == 1) {
                 AABB box = super.getBoundingBox();
                 return box.setMinY(box.minY + this.getVehicle().getBbHeight());
@@ -45,7 +45,7 @@ public abstract class AbstractHorseMixin extends Animal {
 
     @Override
     public EntityDimensions getDimensions(Pose pose) {
-        if (this.isPassenger() && this.getVehicle() instanceof Boat ) {
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat) {
             if (this.getVehicle().getPassengers().size() == 1) {
                 EntityDimensions dim = super.getDimensions(pose);
                 return EntityDimensions.scalable(dim.width(), dim.height() - this.getVehicle().getBbHeight());
@@ -59,14 +59,14 @@ public abstract class AbstractHorseMixin extends Animal {
 
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
-        if (this.isPassenger() && this.isPassenger() && this.getVehicle() instanceof Boat && this.getVehicle().getPassengers().size() == 2) {
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat && this.getVehicle().getPassengers().size() == 2) {
             this.ejectPassengers();
         }
     }
 
     @Inject(method= "doPlayerRide", at = @At("HEAD"), cancellable = true)
     protected void doPlayerRide(Player player, CallbackInfo ci) {
-        if (this.isPassenger() && this.getVehicle() instanceof Boat && this.getVehicle().getPassengers().size() == 2) ci.cancel();
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat && this.getVehicle().getPassengers().size() == 2) ci.cancel();
     }
 
     @Inject(method = "handleStartJump", at = @At("HEAD"))
@@ -76,18 +76,18 @@ public abstract class AbstractHorseMixin extends Animal {
 
     @Inject(method = "isStanding", at = @At("RETURN"), cancellable = true)
     public void isStanding(CallbackInfoReturnable<Boolean> cir) {
-        if (this.isPassenger() && this.getVehicle() instanceof Boat) cir.setReturnValue(false);
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat) cir.setReturnValue(false);
     }
 
     @Inject(method = "canEatGrass", at = @At("RETURN"), cancellable = true)
     public void canEatGrass(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
-        if (this.isPassenger() && this.getVehicle() instanceof Boat) cir.setReturnValue(false);
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat) cir.setReturnValue(false);
     }
 
     @Override
     public float getEyeHeight() {
-        if (this.isPassenger() && this.getVehicle() instanceof Boat && this.getVehicle().getPassengers().size() == 2) return super.getEyeHeight() + 1f;
+        if (this.isPassenger() && this.getVehicle() instanceof AbstractBoat && this.getVehicle().getPassengers().size() == 2) return super.getEyeHeight() + 1f;
         return super.getEyeHeight();
     }
 

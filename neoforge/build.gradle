@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.gradleup.shadow" version "9.4.2"
 }
 
 loom {
@@ -15,7 +15,7 @@ architectury {
 
 configurations {
     common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
@@ -23,7 +23,7 @@ configurations {
 
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 }
 
@@ -35,25 +35,23 @@ processResources {
     }
 }
 
+jar {
+    archiveClassifier = "raw"
+    archiveBaseName = "horseinboat-neoforge"
+}
+
 shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
     exclude "fabric.mod.json"
     exclude "horseinboat.accesswidener"
 
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
     archiveClassifier = null
 
     from rootProject.file("LICENSE.md")
-}
-
-jar {
-    archiveClassifier = "dev"
-    setArchivesBaseName("horseinboat-neoforge");
 }
 
 sourcesJar {
